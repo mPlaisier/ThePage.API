@@ -1,0 +1,47 @@
+GET http://localhost:3000/api/authors
+
+###
+POST http://localhost:3000/api/authors
+Content-Type: application/json
+
+{
+    "name":"author name2"
+}
+
+###
+DELETE http://localhost:3000/api/authors/5e4eca767f80d86dd7865ee8
+
+###
+PATCH http://localhost:3000/api/authors/5e4eca767f80d86dd7865ee8
+Content-Type: application/json
+
+{
+    "name":"Willeke Rietveld"
+}
+
+###
+GET http://localhost:3000/api/books
+
+###
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+    "title":"book title",
+    "author": {
+        "_id": "5e4ec9bc7f80d86dd7865ee6",
+        "name": "author name",
+        "__v": 0
+    }
+}
+
+###
+DELETE http://localhost:3000/api/books/5e4ecd0c6214b16f75465375
+
+###
+PATCH http://localhost:3000/api/books/5e4ecc7bdc91076f5000cc1d
+Content-Type: application/json
+
+{
+    "title":"Willeke Rietveld"
+}
