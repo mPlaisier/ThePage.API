@@ -2,7 +2,7 @@
   "name": "thepage.api",
   "version": "1.0.0",
   "description": "API service for ThePage app",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "devStart": "nodemon server.js"
