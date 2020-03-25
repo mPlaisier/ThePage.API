@@ -1,6 +1,8 @@
 GET http://localhost:3000/api/authors
 
 ###
+GET http://localhost:3000/api/books/5e4eca767f80d86dd7865ee8
+###
 POST http://localhost:3000/api/authors
 Content-Type: application/json
 

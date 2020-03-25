@@ -59,7 +59,7 @@ async function getAuthor(req, res, next){
     try{
         author = await Author.findById(req.params.id)
         if(author == null){
-            return res.status(404).json({message: 'Cannot find author'})
+            return res.status(404).json({message: 'Cannot find author',code: '11'})
         }
     }catch(err){
         res.status(500).json({message: err.message})
