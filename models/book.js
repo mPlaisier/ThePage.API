@@ -9,7 +9,12 @@ const bookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Author'
-      }
+    },
+    genres: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Genre'
+      }]
 })
 
 module.exports = mongoose.model('Book',bookSchema)

@@ -23,6 +23,7 @@ router.post('/', async (req, res)=> {
     const book = new Book({
         title: req.body.title,
         author: req.body.author,
+        genres: req.body.genres
     })
     try{
         const newBook = await book.save()
@@ -39,6 +40,10 @@ router.patch('/:id',getBook, async (req, res)=> {
     }
     if(req.body.author != null){
         res.book.author = req.body.author
+    }
+
+    if(req.body.genres != null){
+        res.book.genres = req.body.genres
     }
 
     try{

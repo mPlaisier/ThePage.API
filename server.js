@@ -19,6 +19,9 @@ app.use(express.json())
 const authorsRouter = require('./routes/authors')
 app.use('/api/authors', authorsRouter)
 
+const genresRouter = require('./routes/genres')
+app.use('/api/genres', genresRouter)
+
 const booksRouter = require('./routes/books')
 app.use('/api/books', booksRouter)
 
