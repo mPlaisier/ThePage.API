@@ -4,6 +4,10 @@ const authorSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  olkey:{
+    type: String,
+    required: false
   }
 })
 

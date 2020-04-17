@@ -20,7 +20,8 @@ router.get('/:id', getAuthor, (req, res)=> {
 //Creating One
 router.post('/', async (req, res)=> {
     const author = new Author({
-        name: req.body.name
+        name: req.body.name,
+        olkey: req.body.olkey
     })
     try{
         const newAuthor = await author.save()
@@ -33,9 +34,9 @@ router.post('/', async (req, res)=> {
 //Update One
 router.patch('/:id',getAuthor, async (req, res)=> {
     if(req.body.name != null){
-        res.author.name = req.body.name
+        res.author.name = req.body.name,
+        res.author.olkey = req.body.olkey
     }
-
     try{
         const updateAuthor = await res.author.save()
         res.json(updateAuthor)
@@ -48,7 +49,7 @@ router.patch('/:id',getAuthor, async (req, res)=> {
  router.delete('/:id', getAuthor, async (req, res)=> {
     try{
         await res.author.remove()
-        res.json({message: 'Deleted book'})
+        res.json({message: 'Deleted Author'})
     }catch(err){
         res.status(500).json({message: err.message})
     }
