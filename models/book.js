@@ -14,7 +14,24 @@ const bookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: false,
         ref: 'Genre'
-      }]
+    }],
+    isbn: {
+        type: String,
+        required: false
+    },
+    owned: {
+        type: Boolean,
+        required: false
+    },
+    read: {
+        type: Boolean,
+        required: false
+    },
+    pages: {
+        type: Number,
+        required: false
+    }
+
 })
 
 module.exports = mongoose.model('Book',bookSchema)

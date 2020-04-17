@@ -48,7 +48,7 @@ router.patch('/:id',getGenre, async (req, res)=> {
  router.delete('/:id', getGenre, async (req, res)=> {
     try{
         await res.genre.remove()
-        res.json({message: 'Deleted book'})
+        res.json({message: 'Deleted Genre'})
     }catch(err){
         res.status(500).json({message: err.message})
     }
