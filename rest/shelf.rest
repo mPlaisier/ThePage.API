@@ -1,0 +1,29 @@
+GET http://localhost:3000/api/shelfs
+
+###
+POST http://localhost:3000/api/shelfs
+Content-Type: application/json
+
+{
+    "name":"My books",
+    "books":
+    [
+        {
+            "_id": "5e7fc0bbbc363c52e7d115ce"
+        },
+        {
+            "_id": "5e7fc0c9bc363c52e7d115cf"
+        }
+    ]
+}
+
+###
+PATCH http://localhost:3000/api/shelfs/5eacad0daf531f7b23c79370
+Content-Type: application/json
+
+{
+    "name":"Wishlist"
+}
+
+###
+DELETE http://localhost:3000/api/shelfs/5eacad0daf531f7b23c79370
