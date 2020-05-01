@@ -4,7 +4,6 @@ if(process.env.MODE_ENV !== 'production' && process.env.MODE_ENV !== 'staging'){
 const express = require('express')
 const app = express()
 
-
 //Setup MongoDB
 const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true ,useUnifiedTopology: true} )
@@ -25,5 +24,8 @@ app.use('/api/genres', genresRouter)
 const booksRouter = require('./routes/books')
 app.use('/api/books', booksRouter)
 
+const shelfsRouter = require('./routes/shelfs')
+app.use('/api/shelfs', shelfsRouter)
 
+//Listen
 app.listen(process.env.PORT || 3000)

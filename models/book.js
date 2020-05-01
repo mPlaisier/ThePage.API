@@ -30,8 +30,19 @@ const bookSchema = new mongoose.Schema({
     pages: {
         type: Number,
         required: false
+    },
+    olkey:{
+      type: String,
+      required: false
+    },
+    olcover: {
+        type: mongoose.Schema.Types.Mixed,
+        required: false,
+    },
+    ebook: {
+        type: Boolean,
+        required: false
     }
-
 })
 
 module.exports = mongoose.model('Book',bookSchema)

@@ -27,7 +27,10 @@ router.post('/', async (req, res)=> {
         isbn: req.body.isbn,
         owned: req.body.owned,
         read: req.body.read,
-        pages: req.body.pages
+        pages: req.body.pages,
+        olkey: req.body.olkey,
+        olcover: req.body.olcover,
+        ebook: req.body.ebook
     })
     try{
         const newBook = await book.save()
@@ -64,6 +67,18 @@ router.patch('/:id',getBook, async (req, res)=> {
 
     if(req.body.pages != null){
         res.book.pages = req.body.pages
+    }
+
+    if(req.body.olkey != null){
+        res.book.olkey = req.body.olkey
+    }
+
+    if(req.body.olcover != null){
+        res.book.olcover = req.body.olcover
+    }
+
+    if(req.body.ebook != null){
+        res.book.ebook = req.body.ebook
     }
 
     try{
