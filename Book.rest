@@ -1,0 +1,54 @@
+###
+GET http://localhost:3000/api/books
+
+###
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+    "title":"book name",
+    "author": {
+        "_id": "5e4ec9bc7f80d86dd7865ee6",
+        "name": "author name",
+        "__v": 0
+    },
+    "genres":
+    [
+        {
+            "_id": "5e7fc0bbbc363c52e7d115ce",
+            "name": "Fiction",
+            "__v": 0
+        },
+        {
+            "_id": "5e7fc0c9bc363c52e7d115cf",
+            "name": "Non-Fiction",
+            "__v": 0
+        }
+    ],
+    "isbn":"48444554854",
+    "owned":true,
+    "read":true,
+    "olkey":"OL123456",
+    "ebook":false,
+    "pages":204,
+    "olcover":
+        {
+         "small":"https://covers.openlibrary.org/b/id/8666743-S.jpg",
+         "large":"https://covers.openlibrary.org/b/id/8666743-L.jpg",
+         "medium":"https://covers.openlibrary.org/b/id/8666743-M.jpg"
+        }
+}
+
+###
+GET http://localhost:3000/api/books/5eaca9775b09407517c6ad36
+
+###
+DELETE http://localhost:3000/api/books/5eaca9775b09407517c6ad36
+
+###
+PATCH http://localhost:3000/api/books/5eaca92b5b09407517c6ad35
+Content-Type: application/json
+
+{
+    "title":"Willeke Rietveld"
+}
