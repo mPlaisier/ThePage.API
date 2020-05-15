@@ -17,6 +17,18 @@ router.get('/:id', getAuthor, (req, res)=> {
    res.send(res.author)
 })
 
+//Search by name
+router.get('/search/name', async (req, res) => {
+    try {
+        var param = req.body.search != null ? req.body.search : ""
+
+        const books = await Author.find({ name: { $regex: '.*' + param + '.*' } }, 'name')
+        res.json(books)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating One
 router.post('/', async (req, res)=> {
     const author = new Author({

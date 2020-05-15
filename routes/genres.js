@@ -17,6 +17,18 @@ router.get('/:id', getGenre, (req, res)=> {
    res.send(res.genre)
 })
 
+//Search by name
+router.get('/search/name', async (req, res) => {
+    try {
+        var param = req.body.search != null ? req.body.search : ""
+
+        const books = await Genre.find({ name: { $regex: '.*' + param + '.*' } }, 'name')
+        res.json(books)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating One
 router.post('/', async (req, res)=> {
     const genre = new Genre({
