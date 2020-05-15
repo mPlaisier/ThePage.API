@@ -47,7 +47,9 @@ router.post('/', async (req, res)=> {
 router.patch('/:id',getAuthor, async (req, res)=> {
     if(req.body.name != null){
         res.author.name = req.body.name,
-        res.author.olkey = req.body.olkey
+    }
+    if(req.body.olkey != null){
+        res.book.olkey = req.body.olkey
     }
     try{
         const updateAuthor = await res.author.save()
@@ -70,7 +72,7 @@ router.patch('/:id',getAuthor, async (req, res)=> {
 // Private
 async function getAuthor(req, res, next){
     try{
-        author = await Author.findById(req.params.id)
+        const author = await Author.findById(req.params.id)
         if(author == null){
             return res.status(404).json({message: 'Cannot find author',code: '11'})
         }

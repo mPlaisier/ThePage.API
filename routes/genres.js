@@ -69,7 +69,7 @@ router.patch('/:id',getGenre, async (req, res)=> {
 // Private
 async function getGenre(req, res, next){
     try{
-        genre = await Genre.findById(req.params.id)
+        const genre = await Genre.findById(req.params.id)
         if(genre == null){
             return res.status(404).json({message: 'Cannot find genre',code: '31'})
         }

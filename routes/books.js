@@ -115,7 +115,7 @@ router.patch('/:id',getBook, async (req, res)=> {
 //Private
 async function getBook(req, res, next){
     try{
-        book = await Book.findById(req.params.id)
+        const book = await Book.findById(req.params.id)
         if(book == null){
             return res.status(404).json({message: 'Cannot find book',code: '21'})
         }
