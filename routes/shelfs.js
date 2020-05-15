@@ -23,7 +23,7 @@ router.get('/search/name', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
 
-        const books = await Shelf.find({ name: { $regex: '.*' + param + '.*' } }, 'name')
+        const books = await Shelf.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
         res.json(books)
     } catch (err) {
         res.status(500).json({message: err.message})

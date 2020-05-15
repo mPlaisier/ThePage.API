@@ -23,7 +23,7 @@ router.get('/search/title', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
 
-        const books = await Book.find({ title: { $regex: '.*' + param + '.*' } }, 'title author')
+        const books = await Book.find({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'title author')
                                 .populate('author', 'name')
         res.json(books)
     } catch (err) {
