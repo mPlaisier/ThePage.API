@@ -18,6 +18,19 @@ router.get('/:id', getBook, (req, res)=> {
 
 })
 
+//Search by Title
+router.get('/search/title', async (req, res) => {
+    try {
+        var param = req.body.search != null ? req.body.search : ""
+
+        const books = await Book.find({ title: { $regex: '.*' + param + '.*' } }, 'title author')
+                                .populate('author', 'name')
+        res.json(books)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating One
 router.post('/', async (req, res)=> {
     const book = new Book({
@@ -102,7 +115,7 @@ router.patch('/:id',getBook, async (req, res)=> {
 //Private
 async function getBook(req, res, next){
     try{
-        book = await Book.findById(req.params.id)
+        const book = await Book.findById(req.params.id)
         if(book == null){
             return res.status(404).json({message: 'Cannot find book',code: '21'})
         }

@@ -17,6 +17,18 @@ router.get('/:id', getAuthor, (req, res)=> {
    res.send(res.author)
 })
 
+//Search by name
+router.get('/search/name', async (req, res) => {
+    try {
+        var param = req.body.search != null ? req.body.search : ""
+
+        const books = await Author.find({ name: { $regex: '.*' + param + '.*' } }, 'name')
+        res.json(books)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating One
 router.post('/', async (req, res)=> {
     const author = new Author({
@@ -34,9 +46,12 @@ router.post('/', async (req, res)=> {
 //Update One
 router.patch('/:id',getAuthor, async (req, res)=> {
     if(req.body.name != null){
-        res.author.name = req.body.name,
-        res.author.olkey = req.body.olkey
+        res.author.name = req.body.name
     }
+    if(req.body.olkey != null){
+        res.book.olkey = req.body.olkey
+    }
+
     try{
         const updateAuthor = await res.author.save()
         res.json(updateAuthor)
@@ -58,7 +73,7 @@ router.patch('/:id',getAuthor, async (req, res)=> {
 // Private
 async function getAuthor(req, res, next){
     try{
-        author = await Author.findById(req.params.id)
+        const author = await Author.findById(req.params.id)
         if(author == null){
             return res.status(404).json({message: 'Cannot find author',code: '11'})
         }

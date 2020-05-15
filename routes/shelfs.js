@@ -18,6 +18,18 @@ router.get('/:id', getShelf, (req, res)=> {
 
 })
 
+//Search by name
+router.get('/search/name', async (req, res) => {
+    try {
+        var param = req.body.search != null ? req.body.search : ""
+
+        const books = await Shelf.find({ name: { $regex: '.*' + param + '.*' } }, 'name')
+        res.json(books)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating One
 router.post('/', async (req, res)=> {
     const shelf = new Shelf({
@@ -62,7 +74,7 @@ router.patch('/:id',getShelf, async (req, res)=> {
 //Private
 async function getShelf(req, res, next){
     try{
-        shelf = await Shelf.findById(req.params.id)
+        const shelf = await Shelf.findById(req.params.id)
         if(shelf == null){
             return res.status(404).json({message: 'Cannot find shelf',code: '41'})
         }
