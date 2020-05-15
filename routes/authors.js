@@ -22,8 +22,8 @@ router.get('/search/name', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
 
-        const author = await Author.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
-        res.json(author)
+        const authors = await Author.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
+        res.json(authors)
     } catch (err) {
         res.status(500).json({message: err.message})
     }

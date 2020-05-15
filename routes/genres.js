@@ -22,8 +22,8 @@ router.get('/search/name', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
 
-        const books = await Genre.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
-        res.json(books)
+        const genres = await Genre.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
+        res.json(genres)
     } catch (err) {
         res.status(500).json({message: err.message})
     }
