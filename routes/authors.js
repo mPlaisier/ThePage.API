@@ -46,11 +46,12 @@ router.post('/', async (req, res)=> {
 //Update One
 router.patch('/:id',getAuthor, async (req, res)=> {
     if(req.body.name != null){
-        res.author.name = req.body.name,
+        res.author.name = req.body.name
     }
     if(req.body.olkey != null){
         res.book.olkey = req.body.olkey
     }
+
     try{
         const updateAuthor = await res.author.save()
         res.json(updateAuthor)
