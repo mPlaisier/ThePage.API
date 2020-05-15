@@ -2,10 +2,22 @@ const express = require('express')
 const router = express.Router()
 const Author = require('../models/author.js')
 
+//Fixed values
+const pageLimit = 15
+
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        const authors = await Author.find()
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        console.log('page: ' + pageNumber);
+        const options = {
+            page: pageNumber,
+            limit: pageLimit,
+            sort: { name: 'asc'},
+            collation: { locale: 'en' }
+        };
+
+        const authors = await Author.paginate({}, options)
         res.json(authors)
     } catch(err){
         res.status(500).json({message: err.message})

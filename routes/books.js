@@ -2,10 +2,26 @@ const express = require('express')
 const router = express.Router()
 const Book = require('../models/book.js')
 
+//Fixed values
+const pageLimit = 25
+
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        const books = await Book.find()
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        const options = {
+            select: 'title author',
+            sort: { title: 'asc'},
+            page: pageNumber,
+            populate: {
+                path: 'author',
+                select: 'name'
+            },
+            limit: pageLimit,
+            collation: { locale: 'en' }
+        };
+
+        const books = await Book.paginate({}, options)
         res.json(books)
     } catch(err){
         res.status(500).json({message: err.message})
