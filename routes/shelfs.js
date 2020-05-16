@@ -4,7 +4,7 @@ const Shelf = require('../models/shelf.js')
 const functions = require("../utils/functions.js");
 
 //Fixed values
-const pageLimit = 25
+const pageLimit = process.env.SHELF_LIMIT;
 const options = {
     limit: pageLimit,
     sort: { name: 'asc'},

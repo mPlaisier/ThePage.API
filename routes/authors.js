@@ -4,7 +4,7 @@ const Author = require('../models/author.js')
 const functions = require("../utils/functions.js");
 
 //Fixed values
-const pageLimit = 25
+const pageLimit = process.env.AUTHOR_LIMIT;
 const options = {
     limit: pageLimit,
     sort: { name: 'asc'},
