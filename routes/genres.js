@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Genre = require('../models/genre.js')
+const functions = require("../utils/functions.js");
 
 //Fixed values
 const pageLimit = 25
@@ -13,8 +14,7 @@ const options = {
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        var pageNumber = req.body.page > 0 ? req.body.page : 1
-        options.page = pageNumber;
+        options.page = functions.GetPage(req.body.page);
 
         const genres = await Genre.paginate({}, options)
         res.json(genres)
@@ -31,10 +31,8 @@ router.get('/:id', getGenre, (req, res)=> {
 //Search by name
 router.get('/search/name', async (req, res) => {
     try {
-        var param = req.body.search != null ? req.body.search : ""
-        
-        var pageNumber = req.body.page > 0 ? req.body.page : 1
-        options.page = pageNumber;
+        var param = functions.GetSearchParam(req.body.search);
+        options.page = functions.GetPage(req.body.page);
 
         const genres = await Genre.paginate({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }
                                                 ,options)
@@ -84,7 +82,7 @@ router.patch('/:id',getGenre, async (req, res)=> {
 // Private
 async function getGenre(req, res, next){
     try{
-        const genre = await Genre.findById(req.params.id)
+        var genre = await Genre.findById(req.params.id)
         if(genre == null){
             return res.status(404).json({message: 'Cannot find genre',code: '31'})
         }
