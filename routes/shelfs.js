@@ -2,10 +2,21 @@ const express = require('express')
 const router = express.Router()
 const Shelf = require('../models/shelf.js')
 
+//Fixed values
+const pageLimit = 5
+
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        const shelfs = await Shelf.find()
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        const options = {
+            page: pageNumber,
+            limit: pageLimit,
+            sort: { name: 'asc'},
+            collation: { locale: 'en' }
+        };
+
+        const shelfs = await Shelf.paginate({}, options)
         res.json(shelfs)
     } catch(err){
         res.status(500).json({message: err.message})

@@ -3,13 +3,12 @@ const router = express.Router()
 const Author = require('../models/author.js')
 
 //Fixed values
-const pageLimit = 15
+const pageLimit = 5
 
 //Getting all
 router.get('/',async (req, res)=> {
     try{
         var pageNumber = req.body.page > 0 ? req.body.page : 1
-        console.log('page: ' + pageNumber);
         const options = {
             page: pageNumber,
             limit: pageLimit,

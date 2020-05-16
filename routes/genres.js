@@ -2,10 +2,21 @@ const express = require('express')
 const router = express.Router()
 const Genre = require('../models/genre.js')
 
+//Fixed values
+const pageLimit = 5
+
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        const genres = await Genre.find()
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        const options = {
+            page: pageNumber,
+            limit: pageLimit,
+            sort: { name: 'asc'},
+            collation: { locale: 'en' }
+        };
+
+        const genres = await Genre.paginate({}, options)
         res.json(genres)
     } catch(err){
         res.status(500).json({message: err.message})
