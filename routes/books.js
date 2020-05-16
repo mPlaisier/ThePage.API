@@ -4,22 +4,22 @@ const Book = require('../models/book.js')
 
 //Fixed values
 const pageLimit = 25
+const options = {
+    select: 'title author',
+    sort: { title: 'asc'},
+    populate: {
+        path: 'author',
+        select: 'name'
+    },
+    limit: pageLimit,
+    collation: { locale: 'en' }
+};
 
 //Getting all
 router.get('/',async (req, res)=> {
     try{
         var pageNumber = req.body.page > 0 ? req.body.page : 1
-        const options = {
-            select: 'title author',
-            sort: { title: 'asc'},
-            page: pageNumber,
-            populate: {
-                path: 'author',
-                select: 'name'
-            },
-            limit: pageLimit,
-            collation: { locale: 'en' }
-        };
+        options.page = pageNumber
 
         const books = await Book.paginate({}, options)
         res.json(books)
@@ -38,9 +38,12 @@ router.get('/:id', getBook, (req, res)=> {
 router.get('/search/title', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
+        
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        options.page = pageNumber
 
-        const books = await Book.find({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'title author')
-                                .populate('author', 'name')
+        const books = await Book.paginate({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }
+                                            ,options)
         res.json(books)
     } catch (err) {
         res.status(500).json({message: err.message})

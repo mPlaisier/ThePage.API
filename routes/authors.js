@@ -3,18 +3,18 @@ const router = express.Router()
 const Author = require('../models/author.js')
 
 //Fixed values
-const pageLimit = 5
+const pageLimit = 25
+const options = {
+    limit: pageLimit,
+    sort: { name: 'asc'},
+    collation: { locale: 'en' }
+};
 
 //Getting all
 router.get('/',async (req, res)=> {
     try{
         var pageNumber = req.body.page > 0 ? req.body.page : 1
-        const options = {
-            page: pageNumber,
-            limit: pageLimit,
-            sort: { name: 'asc'},
-            collation: { locale: 'en' }
-        };
+        options.page = pageNumber
 
         const authors = await Author.paginate({}, options)
         res.json(authors)
@@ -32,8 +32,12 @@ router.get('/:id', getAuthor, (req, res)=> {
 router.get('/search/name', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
+       
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        options.page = pageNumber
 
-        const authors = await Author.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
+        const authors = await Author.paginate({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }
+                                                ,options)
         res.json(authors)
     } catch (err) {
         res.status(500).json({message: err.message})
