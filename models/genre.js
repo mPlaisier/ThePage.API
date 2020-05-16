@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const genreSchema = new mongoose.Schema({
   name: {
@@ -7,4 +8,5 @@ const genreSchema = new mongoose.Schema({
   }
 })
 
+genreSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Genre', genreSchema)

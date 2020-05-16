@@ -2,10 +2,21 @@ const express = require('express')
 const router = express.Router()
 const Shelf = require('../models/shelf.js')
 
+//Fixed values
+const pageLimit = 25
+const options = {
+    limit: pageLimit,
+    sort: { name: 'asc'},
+    collation: { locale: 'en' }
+};
+
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        const shelfs = await Shelf.find()
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        options.page = pageNumber;
+
+        const shelfs = await Shelf.paginate({}, options)
         res.json(shelfs)
     } catch(err){
         res.status(500).json({message: err.message})
@@ -22,8 +33,12 @@ router.get('/:id', getShelf, (req, res)=> {
 router.get('/search/name', async (req, res) => {
     try {
         var param = req.body.search != null ? req.body.search : ""
+       
+        var pageNumber = req.body.page > 0 ? req.body.page : 1
+        options.page = pageNumber;
 
-        const shelfs = await Shelf.find({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }, 'name')
+        const shelfs = await Shelf.paginate({ name: { $regex: '.*' + param + '.*', '$options' : 'i' } }
+                                                ,options)
         res.json(shelfs)
     } catch (err) {
         res.status(500).json({message: err.message})
