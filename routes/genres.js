@@ -4,7 +4,7 @@ const Genre = require('../models/genre.js')
 const functions = require("../utils/functions.js");
 
 //Fixed values
-const pageLimit = 25
+const pageLimit = process.env.GENRE_LIMIT;
 const options = {
     limit: pageLimit,
     sort: { name: 'asc'},

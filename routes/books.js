@@ -4,7 +4,7 @@ const Book = require('../models/book.js')
 const functions = require("../utils/functions.js");
 
 //Fixed values
-const pageLimit = 25
+const pageLimit = process.env.BOOK_LIMIT;
 const options = {
     select: 'title author',
     sort: { title: 'asc'},
