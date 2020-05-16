@@ -1,11 +1,15 @@
-var assert = require('assert');
+var chai = require('chai');  
+var assert = chai.assert;    // Using Assert style
+var expect = chai.expect;    // Using Expect style
+var should = chai.should();  // Using Should style
 const functions = require("../../utils/functions.js");
 
 describe('Utils functions', function(){
 
     describe('GetPage Tests', function(){
         it('page should return 1 when empty', function(){
-            assert.equal(1,functions.GetPage());
+            var page = functions.GetPage();
+            expect(page).to.be.equal(1);
         })
 
         it('page should return 1 when null', function(){
