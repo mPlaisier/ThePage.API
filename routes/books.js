@@ -6,7 +6,7 @@ const functions = require("../utils/functions.js");
 //Fixed values
 const pageLimit = 25
 const options = {
-    //select: 'title author',
+    select: 'title author',
     sort: { title: 'asc'},
     populate: {
         path: 'author',
@@ -51,8 +51,6 @@ router.get('/search/title', async (req, res) => {
 //Search by ISBN
 router.get('/search/isbn', async (req, res) => {
     try {
-        var param = functions.GetSearchParam(req.body.isbn);
-
         var book = await Book.find({isbn: req.body.isbn})
         res.json(book)
     } catch (err) {
