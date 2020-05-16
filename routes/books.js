@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Book = require('../models/book.js')
+const functions = require("../utils/functions.js");
 
 //Fixed values
 const pageLimit = 25
@@ -18,8 +19,7 @@ const options = {
 //Getting all
 router.get('/',async (req, res)=> {
     try{
-        var pageNumber = req.body.page > 0 ? req.body.page : 1
-        options.page = pageNumber
+        options.page = functions.GetPage(req.body.page);
 
         const books = await Book.paginate({}, options)
         res.json(books)
@@ -37,10 +37,8 @@ router.get('/:id', getBook, (req, res)=> {
 //Search by Title
 router.get('/search/title', async (req, res) => {
     try {
-        var param = req.body.search != null ? req.body.search : ""
-        
-        var pageNumber = req.body.page > 0 ? req.body.page : 1
-        options.page = pageNumber
+        var param = functions.GetSearchParam(req.body.search);
+        options.page = functions.GetPage(req.body.page);
 
         const books = await Book.paginate({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }
                                             ,options)
@@ -134,7 +132,7 @@ router.patch('/:id',getBook, async (req, res)=> {
 //Private
 async function getBook(req, res, next){
     try{
-        const book = await Book.findById(req.params.id)
+        var book = await Book.findById(req.params.id)
         if(book == null){
             return res.status(404).json({message: 'Cannot find book',code: '21'})
         }
