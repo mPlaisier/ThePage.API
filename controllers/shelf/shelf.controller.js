@@ -53,7 +53,6 @@ exports.deleteShelf = async (req, res)=> {
 
 exports.getShelf = async (req, res, next)=> {
     try{
-        console.log("Find shelf");
         var shelf = await Shelf.findById(req.params.id)
         if(shelf == null){
             return res.status(404).json({message: 'Cannot find shelf',code: '41'})
@@ -61,7 +60,6 @@ exports.getShelf = async (req, res, next)=> {
     }catch(err){
         res.status(500).json({message: err.message})
     }
-    console.log("Return shelf");
     res.shelf = shelf;
     next();
 };
