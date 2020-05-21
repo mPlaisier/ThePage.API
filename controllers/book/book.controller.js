@@ -1,7 +1,4 @@
-const express = require('express')
-const router = express.Router()
-const Book = require('../models/book.js')
-const functions = require("../utils/functions.js");
+const Book = require('../../models/book.js')
 
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
@@ -16,50 +13,20 @@ const options = {
     collation: { locale: 'en' }
 };
 
-//Getting all
-router.get('/',async (req, res)=> {
+exports.getBooks = async (req, res)=> {
     try{
-        options.page = functions.GetPage(req.body.page);
-
-        const books = await Book.paginate({}, options)
+        const books = await Book.find()
         res.json(books)
     } catch(err){
         res.status(500).json({message: err.message})
     }
-})
+}
 
-//Getting One
-router.get('/:id', getBook, (req, res)=> {
-   res.send(res.book)
+exports.getBookDetail = (req, res)=> {
+    res.send(res.book) 
+ };
 
-})
-
-//Search by Title
-router.get('/search/title', async (req, res) => {
-    try {
-        var param = functions.GetSearchParam(req.body.search);
-        options.page = functions.GetPage(req.body.page);
-
-        const books = await Book.paginate({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }
-                                            ,options)
-        res.json(books)
-    } catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
-
-//Search by ISBN
-router.get('/search/isbn', async (req, res) => {
-    try {
-        var book = await Book.find({isbn: req.body.isbn})
-        res.json(book)
-    } catch (err) {
-        res.status(500).json({message: err.message})
-    }
-});
-
-//Creating One
-router.post('/', async (req, res)=> {
+exports.addBook = async (req, res)=> {
     const book = new Book({
         title: req.body.title,
         author: req.body.author,
@@ -78,10 +45,9 @@ router.post('/', async (req, res)=> {
     } catch(err){
         res.status(400).json({message: err.message})
     }
-})
+}
 
-//Update One
-router.patch('/:id',getBook, async (req, res)=> {
+exports.updateBook =  async (req, res)=> {
     if(req.body.title != null){
         res.book.title = req.body.title
     }
@@ -127,31 +93,26 @@ router.patch('/:id',getBook, async (req, res)=> {
     }catch(err){
         res.status(400).json({message: err.message})
     }
-})
+};
 
-//Delete One
- router.delete('/:id', getBook, async (req, res)=> {
+exports.deleteBook = async (req, res)=> {
     try{
         await res.book.remove()
         res.json({message: 'Deleted book'})
     }catch(err){
         res.status(500).json({message: err.message})
     }
-})
+};
 
-//Private
-async function getBook(req, res, next){
+exports.getBook = async (req, res, next)=> {
     try{
         var book = await Book.findById(req.params.id)
         if(book == null){
-            return res.status(404).json({message: 'Cannot find book',code: '21'})
-        }
+            return res.status(404).json({message: 'Cannot find book',code: '31'})
+        }        
     }catch(err){
         res.status(500).json({message: err.message})
     }
-
-    res.book = book
-    next()
-}
-
-module.exports = router
+    res.book = book;
+    next();
+};

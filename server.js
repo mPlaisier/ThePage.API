@@ -6,26 +6,25 @@ const app = express()
 
 //Setup MongoDB
 const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true ,useUnifiedTopology: true} )
-const db = mongoose.connection
-db.on('error', (error) => console.error(error))
-db.once('open', (error) => console.log("Connected to Database"))
+mongoose.connect(process.env.DATABASE_URL,{ 
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => {
+    console.log("Successfully connect to MongoDB.");
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+  });
 
 //Enable JSON
 app.use(express.json())
 
-//ROUTES
-const authorsRouter = require('./routes/authors')
-app.use('/api/authors', authorsRouter)
-
-const genresRouter = require('./routes/genres')
-app.use('/api/genres', genresRouter)
-
-const booksRouter = require('./routes/books')
-app.use('/api/books', booksRouter)
-
-const shelfsRouter = require('./routes/shelfs')
-app.use('/api/shelfs', shelfsRouter)
+require('./routes/genre.routes')(app);
+require('./routes/author.routes')(app);
+require('./routes/book.routes')(app);
+require('./routes/shelf.routes')(app);
 
 //Listen
 app.listen(process.env.PORT || 3000)
