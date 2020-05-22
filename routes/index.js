@@ -13,6 +13,6 @@ router.use('/books', bookRoute);
 router.use('/genres', genreRoute);
 router.use('/shelfs', shelfRoute);
 router.use('/auth', authRoute);
-router.use('/user', userRoute);
+router.use('/users', userRoute);
 
 module.exports = router;
