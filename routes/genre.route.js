@@ -25,4 +25,5 @@ router.route('/v2/:id')
     .get(auth(), controllerv2.getGenre, controller.getGenreDetail)
     .patch(auth(), controllerv2.getGenre, controller.updateGenre)
     .delete(auth(), controllerv2.getGenre, controller.deleteGenre);
+    
 module.exports = router;
