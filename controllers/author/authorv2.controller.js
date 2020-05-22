@@ -1,4 +1,4 @@
-const Author = require('../../models/author.js')
+const Author = require('../../models/author.model.js')
 const functions = require("../../utils/functions.js");
 
 //Fixed values

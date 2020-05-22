@@ -1,4 +1,4 @@
-const Shelf = require('../../models/shelf.js')
+const Shelf = require('../../models/shelf.model.js')
 const functions = require("../../utils/functions.js");
 
 //Fixed values

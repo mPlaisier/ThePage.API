@@ -1,4 +1,4 @@
-const Book = require('../../models/book.js')
+const Book = require('../../models/book.model.js')
 const functions = require("../../utils/functions.js");
 
 //Fixed values

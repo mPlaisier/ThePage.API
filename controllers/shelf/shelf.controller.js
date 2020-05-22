@@ -1,4 +1,4 @@
-const Shelf = require('../../models/shelf.js')
+const Shelf = require('../../models/shelf.model.js')
 
 exports.getShelfs = async (req, res)=> {
     try{

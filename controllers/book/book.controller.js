@@ -1,4 +1,4 @@
-const Book = require('../../models/book.js')
+const Book = require('../../models/book.model.js')
 
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;

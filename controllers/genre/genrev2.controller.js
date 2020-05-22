@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError');
-const Genre = require('../../models/genre.js')
+const Genre = require('../../models/genre.model.js')
 const functions = require("../../utils/functions.js");
 
 //Fixed values
