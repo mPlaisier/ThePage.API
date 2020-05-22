@@ -51,7 +51,7 @@ exports.getGenre = async (req, res, next)=> {
     try{
         var genre = await Genre.findById(req.params.id)
         if(genre == null){
-            return res.status(404).json({message: 'Cannot find genre',code: '31'})
+            return res.status(httpStatus.NOT_FOUND).json({message: 'Genre not found'})
         }        
     }catch(err){
         res.status(500).json({message: err.message})

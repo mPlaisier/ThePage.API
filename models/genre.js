@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2');
+const { toJSON } = require('./plugins');
 
 const genreSchema = new mongoose.Schema({
   name: {
@@ -13,5 +14,6 @@ const genreSchema = new mongoose.Schema({
   }
 })
 
+genreSchema.plugin(toJSON);
 genreSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Genre', genreSchema)

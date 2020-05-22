@@ -53,11 +53,11 @@ exports.getGenre = async (req, res, next)=> {
     try{
         var genre = await Genre.findById(req.params.id)
         if(!genre){
-            throw new ApiError(httpStatus.NOT_FOUND, 'Genre not found');
+            return res.status(httpStatus.NOT_FOUND).json({message: 'Genre not found'})
         }
 
         if(!genre.user || genre.user.equals(req.user._id) == false){
-            throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+            return res.status(httpStatus.FORBIDDEN).json({message: 'Forbidden'})
         }
 
         res.genre = genre;
