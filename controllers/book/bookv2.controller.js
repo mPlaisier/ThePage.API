@@ -1,10 +1,12 @@
+const httpStatus = require('http-status');
+const ApiError = require('../../utils/ApiError');
 const Book = require('../../models/book.model.js')
 const functions = require("../../utils/functions.js");
 
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
 const options = {
-    select: 'title author',
+    select: 'title author user', //TODO remove user
     sort: { title: 'asc'},
     populate: {
         path: 'author',
@@ -18,10 +20,32 @@ exports.getBooks = async (req, res)=> {
     try{
         options.page = functions.GetPage(req.body.page);
 
-        const books = await Book.paginate({}, options)
+        const books = await Book.paginate({user: req.user}, options)
         res.json(books)
     } catch(err){
         res.status(500).json({message: err.message})
+    }
+};
+
+exports.addBook = async (req, res)=> {
+    const book = new Book({
+        title: req.body.title,
+        author: req.body.author,
+        genres: req.body.genres,
+        isbn: req.body.isbn,
+        owned: req.body.owned,
+        read: req.body.read,
+        pages: req.body.pages,
+        olkey: req.body.olkey,
+        olcover: req.body.olcover,
+        ebook: req.body.ebook,
+        user: req.user
+    })
+    try{
+        const newBook = await book.save()
+        res.status(201).json(newBook)
+    } catch(err){
+        res.status(400).json({message: err.message})
     }
 };
 
@@ -30,7 +54,7 @@ exports.searchBookByTitle = async (req, res) => {
         var param = functions.GetSearchParam(req.body.search);
         options.page = functions.GetPage(req.body.page);
 
-        const books = await Book.paginate({ title: { $regex: '.*' + param + '.*', '$options' : 'i' } }
+        const books = await Book.paginate({ title: { $regex: '.*' + param + '.*', '$options' : 'i' }, user: req.user }
                                             ,options)
         res.json(books)
     } catch (err) {
@@ -40,9 +64,27 @@ exports.searchBookByTitle = async (req, res) => {
 
 exports.searchBookByIsbn = async (req, res) => {
     try {
-        var book = await Book.find({isbn: req.body.isbn})
+        var book = await Book.find({isbn: req.body.isbn, user: req.user})
         res.json(book)
     } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+};
+
+exports.getBook = async (req, res, next)=> {
+    try{
+        var book = await Book.findById(req.params.id)
+        if(book == null){
+            return res.status(httpStatus.NOT_FOUND).json({message: 'Book not found'})
+        }
+
+        if(!book.user || book.user.equals(req.user._id) == false){
+            return res.status(httpStatus.FORBIDDEN).json({message: 'Forbidden'})
+        }
+
+        res.book = book;
+        next();
+    }catch(err){
         res.status(500).json({message: err.message})
     }
 };
