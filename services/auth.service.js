@@ -5,7 +5,7 @@ const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 
 /**
- * Login with username and password
+ * Login with email and password
  * @param {string} email
  * @param {string} password
  * @returns {Promise<User>}
@@ -14,6 +14,20 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   const user = await userService.getUserByEmail(email);
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
+  }
+  return user;
+};
+
+/**
+ * Login with username and password
+ * @param {string} username
+ * @param {string} password
+ * @returns {Promise<User>}
+ */
+const loginUserWithUsernameAndPassword = async (username, password) => {
+  const user = await userService.getUserByUsername(username);
+  if (!user || !(await user.isPasswordMatch(password))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
   }
   return user;
 };
@@ -59,6 +73,7 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
 
 module.exports = {
   loginUserWithEmailAndPassword,
+  loginUserWithUsernameAndPassword,
   refreshAuth,
   resetPassword,
 };

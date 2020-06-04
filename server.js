@@ -2,9 +2,6 @@ if(process.env.MODE_ENV !== 'production' && process.env.MODE_ENV !== 'staging'){
     require('dotenv').config()
 }
 const express = require('express')
-const routes = require('./routes');
-
-//new
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -12,13 +9,12 @@ const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
 const httpStatus = require('http-status');
+const routes = require('./routes');
 const config = require('./config/config');
 const { jwtStrategy } = require('./config/passport');
 
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
-
-//END new stuff
 
 const app = express()
 
@@ -58,9 +54,6 @@ app.options('*', cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
-
-
-//STOP NEW STOP NEW STOP NEW
 
 //api routes
 app.use('/api', routes);
