@@ -6,7 +6,7 @@ const functions = require("../../utils/functions.js");
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
 const options = {
-    select: 'title author user', //TODO remove user
+    select: 'title author',
     sort: { title: 'asc'},
     populate: {
         path: 'author',

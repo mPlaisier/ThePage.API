@@ -6,7 +6,7 @@ const functions = require("../../utils/functions.js");
 //Fixed values
 const pageLimit = process.env.GENRE_LIMIT;
 const options = {
-    select: 'name user', //TODO can be removed in the future
+    select: 'name',
     limit: pageLimit,
     sort: { name: 'asc'},
     collation: { locale: 'en' }
