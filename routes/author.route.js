@@ -1,5 +1,7 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
+const validate = require('../middlewares/validate');
+const authorValidation = require('../validations/author.validation');
 const controller = require("../controllers/author/author.controller");
 const controllerv2 = require("../controllers/author/authorv2.controller");
 
@@ -10,11 +12,11 @@ router.route('/')
     .post(controller.addAuthor)
 
 router.route('/v2')
-    .get(auth(), controllerv2.getAuthors)
-    .post(auth(), controllerv2.addAuthor);
+    .get(auth(), validate(authorValidation.getAuthors), controllerv2.getAuthors)
+    .post(auth(), validate(authorValidation.addAuthor), controllerv2.addAuthor);
 
 router.route('/search/name')
-    .get(auth(), controllerv2.searchAuthorByName);
+    .get(auth(), validate(authorValidation.searchAuthorByName), controllerv2.searchAuthorByName);
 
 router.route('/:id')
     .get(controller.getAuthor, controller.getAuthorDetail)
@@ -22,8 +24,8 @@ router.route('/:id')
     .delete(controller.getAuthor,controller.deleteAuthor);
 
 router.route('/v2/:id')
-    .get(auth(), controllerv2.getAuthor, controller.getAuthorDetail)
-    .patch(auth(), controllerv2.getAuthor, controller.updateAuthor)
-    .delete(auth(), controllerv2.getAuthor, controller.deleteAuthor);
+    .get(auth(), validate(authorValidation.getAuthorDetail), controllerv2.getAuthor, controller.getAuthorDetail)
+    .patch(auth(), validate(authorValidation.updateAuthor), controllerv2.getAuthor, controller.updateAuthor)
+    .delete(auth(), validate(authorValidation.deleteAuthor), controllerv2.getAuthor, controller.deleteAuthor);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
 const validate = require('../middlewares/validate');
-const controller = require("../controllers/genre/genre.controller");
 const genreValidation = require('../validations/genre.validation');
+const controller = require("../controllers/genre/genre.controller");
 const controllerv2 = require("../controllers/genre/genrev2.controller");
 
 const router = express.Router();
@@ -24,8 +24,8 @@ router.route('/:id')
     .delete(controller.getGenre, controller.deleteGenre);
 
 router.route('/v2/:id')    
-    .get(auth(), controllerv2.getGenre, validate(genreValidation.getGenreDetail), controller.getGenreDetail)
-    .patch(auth(), controllerv2.getGenre, validate(genreValidation.updateGenre), controller.updateGenre)
-    .delete(auth(), controllerv2.getGenre, validate(genreValidation.deleteGenre), controller.deleteGenre);
+    .get(auth(), validate(genreValidation.getGenreDetail), controllerv2.getGenre, controller.getGenreDetail)
+    .patch(auth(), validate(genreValidation.updateGenre), controllerv2.getGenre, controller.updateGenre)
+    .delete(auth(), validate(genreValidation.deleteGenre), controllerv2.getGenre, controller.deleteGenre);
     
 module.exports = router;
