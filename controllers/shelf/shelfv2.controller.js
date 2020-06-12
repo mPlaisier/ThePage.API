@@ -53,6 +53,14 @@ exports.searchShelfByName = async (req, res) => {
 exports.getShelf = async (req, res, next)=> {
     try{
         var shelf = await Shelf.findById(req.params.id)
+                                .populate({
+                                    path: 'books',
+                                    select: 'title author',
+                                    populate: {
+                                        path: 'author',
+                                        select: 'name'
+                                    }
+                                });
         if(shelf == null){
             return res.status(httpStatus.NOT_FOUND).json({message: 'Shelf not found'})
         }

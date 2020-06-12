@@ -1,5 +1,7 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
+const validate = require('../middlewares/validate');
+const bookValidation = require('../validations/book.validation');
 const controller = require("../controllers/book/book.controller");
 const controllerv2 = require("../controllers/book/bookv2.controller");
 
@@ -10,14 +12,14 @@ router.route('/')
     .post(controller.addBook);
 
 router.route('/v2/')
-    .get(auth(), controllerv2.getBooks)
-    .post(auth(), controllerv2.addBook);
+    .get(auth(), validate(bookValidation.getBooks), controllerv2.getBooks)
+    .post(auth(), validate(bookValidation.addBook), controllerv2.addBook);
 
 router.route('/search/title')
-    .get(auth(), controllerv2.searchBookByTitle);
+    .get(auth(), validate(bookValidation.searchBookByTitle), controllerv2.searchBookByTitle);
 
 router.route('/search/isbn')
-    .get(auth(), controllerv2.searchBookByIsbn);
+    .get(auth(), validate(bookValidation.searchBookByIsbn), controllerv2.searchBookByIsbn); //TODO
 
 router.route('/:id')
     .get(controller.getBook, controller.getBookDetail)
@@ -25,8 +27,8 @@ router.route('/:id')
     .delete(controller.getBook,controller.deleteBook);
 
 router.route('/v2/:id')
-    .get(auth(), controllerv2.getBook, controller.getBookDetail)
-    .patch(auth(), controllerv2.getBook, controller.updateBook)
-    .delete(auth(), controllerv2.getBook, controller.deleteBook);
+    .get(auth(), validate(bookValidation.getBookDetail), controllerv2.getBook, controller.getBookDetail)
+    .patch(auth(), validate(bookValidation.updateBook), controllerv2.getBook, controller.updateBook)
+    .delete(auth(), validate(bookValidation.deleteBook), controllerv2.getBook, controller.deleteBook);
     
 module.exports = router;

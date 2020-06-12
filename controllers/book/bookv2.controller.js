@@ -74,6 +74,7 @@ exports.searchBookByIsbn = async (req, res) => {
 exports.getBook = async (req, res, next)=> {
     try{
         var book = await Book.findById(req.params.id)
+                                .populate('author genres');
         if(book == null){
             return res.status(httpStatus.NOT_FOUND).json({message: 'Book not found'})
         }
