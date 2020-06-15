@@ -2,7 +2,7 @@ var chai = require('chai');
 var assert = chai.assert;    // Using Assert style
 var expect = chai.expect;    // Using Expect style
 var should = chai.should();  // Using Should style
-const functions = require("../../utils/functions.js");
+const functions = require("../../src/utils/functions.js");
 
 describe('Utils functions', function(){
 
