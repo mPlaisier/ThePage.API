@@ -1,5 +1,5 @@
-if(process.env.MODE_ENV !== 'production' && process.env.MODE_ENV !== 'staging'){
-    require('dotenv').config()
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'staging') {
+  require('dotenv').config()
 }
 const express = require('express')
 const helmet = require('helmet');
@@ -15,20 +15,18 @@ const { jwtStrategy } = require('./config/passport');
 
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const logger = require('./config/logger');
 
 const app = express()
 
 //Setup MongoDB
 const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_URL,{ 
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => {
-    console.log("Successfully connect to MongoDB.");
+mongoose.connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    logger.info(`Successfully connect to MongoDB.`);
   })
   .catch(err => {
-    console.error("Connection error", err);
+    logger.error("Connection error", err);
     process.exit();
   });
 
@@ -38,7 +36,9 @@ app.use(express.json())
 //NEW NEW NEW NEW
 app.use(helmet());
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 
 // sanitize request data
 app.use(xss());
@@ -70,4 +70,6 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 //Listen
-app.listen(process.env.PORT || 3000)
+app.listen(config.port, () => {
+  logger.info(`Listening to port ${config.port}`);
+});
