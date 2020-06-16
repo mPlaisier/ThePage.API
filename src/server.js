@@ -33,7 +33,6 @@ mongoose.connect(config.mongoose.url, config.mongoose.options)
 //Enable JSON
 app.use(express.json())
 
-//NEW NEW NEW NEW
 app.use(helmet());
 
 app.use(express.urlencoded({
