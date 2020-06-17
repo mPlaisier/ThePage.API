@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2');
+const { toJSON } = require('./plugins');
 
 const bookSchema = new mongoose.Schema({
     title:{
@@ -43,8 +44,15 @@ const bookSchema = new mongoose.Schema({
     ebook: {
         type: Boolean,
         required: false
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+      private: true
     }
 })
 
+bookSchema.plugin(toJSON);
 bookSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Book',bookSchema)
