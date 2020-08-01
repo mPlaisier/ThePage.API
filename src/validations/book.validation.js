@@ -47,6 +47,7 @@ const updateBook = {
         id: Joi.required().custom(objectId),
     }),
     body: Joi.object().keys({
+        id: Joi.required().custom(objectId),
         title: Joi.string(),
         author: Joi.custom(objectId),
         genres: Joi.array().items(objectId),
