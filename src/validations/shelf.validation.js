@@ -32,6 +32,7 @@ const updateShelf = {
         id: Joi.required().custom(objectId),
     }),
     body: Joi.object().keys({
+        id: Joi.required().custom(objectId),
         name: Joi.string().required(),
         books: Joi.array().items(objectId)
     })
