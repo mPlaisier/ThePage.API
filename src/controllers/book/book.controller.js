@@ -89,7 +89,13 @@ exports.updateBook =  async (req, res)=> {
 
     try{
         const updatedBook = await res.book.save()
-        res.json(updatedBook)
+        if(updatedBook != null){
+            var book = await Book.findById(req.params.id)
+                                .populate('author genres');
+            res.json(book)
+        }else{
+            res.json(updatedBook)
+        }
     }catch(err){
         res.status(400).json({message: err.message})
     }
