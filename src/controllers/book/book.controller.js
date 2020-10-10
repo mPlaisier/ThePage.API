@@ -113,7 +113,6 @@ exports.deleteBook = async (req, res)=> {
             {},
             { $pull: { books: id} });
 
-
         res.json({message: 'Deleted book'})
     }catch(err){
         res.status(500).json({message: err.message})
