@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const Book = require('../../models/book.model.js')
 const Shelf = require('../../models/shelf.model.js')
 
-
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
 const options = {
