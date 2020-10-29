@@ -36,7 +36,20 @@ exports.updateShelf = async (req, res)=> {
 
     try{
         const updateShelf = await res.shelf.save()
-        res.json(updateShelf)
+        if(updateShelf != null){
+            var shelf = await Shelf.findById(req.params.id)
+                                .populate({
+                                    path: 'books',
+                                    select: 'title author',
+                                    populate: {
+                                        path: 'author',
+                                        select: 'name'
+                                    }
+                                });
+            res.json(shelf);
+        } else{
+            res.json(updateShelf)
+        }
     }catch(err){
         res.status(400).json({message: err.message})
     }

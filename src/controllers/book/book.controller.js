@@ -1,4 +1,6 @@
+const mongoose = require('mongoose')
 const Book = require('../../models/book.model.js')
+const Shelf = require('../../models/shelf.model.js')
 
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
@@ -89,7 +91,13 @@ exports.updateBook =  async (req, res)=> {
 
     try{
         const updatedBook = await res.book.save()
-        res.json(updatedBook)
+        if(updatedBook != null){
+            var book = await Book.findById(req.params.id)
+                                .populate('author genres');
+            res.json(book)
+        }else{
+            res.json(updatedBook)
+        }
     }catch(err){
         res.status(400).json({message: err.message})
     }
@@ -97,7 +105,13 @@ exports.updateBook =  async (req, res)=> {
 
 exports.deleteBook = async (req, res)=> {
     try{
-        await res.book.remove()
+        var id = mongoose.Types.ObjectId(res.book.id);
+        await res.book.remove();
+
+        await Shelf.updateMany(
+            {},
+            { $pull: { books: id} });
+
         res.json({message: 'Deleted book'})
     }catch(err){
         res.status(500).json({message: err.message})
