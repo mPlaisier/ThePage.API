@@ -84,11 +84,8 @@ exports.searchBookFilter = async (req, res) => {
         }
 
         if(functions.IsBoolean(read)){
-            console.log("Add read filter");
             filter = { ...filter, read: read};
         }
-
-        console.log(filter);
 
         const books = await Book.paginate(filter, options);
         res.json(books)
