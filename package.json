@@ -1,6 +1,6 @@
 {
   "name": "thepage.api",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "API service for ThePage app",
   "main": "server.js",
   "scripts": {
