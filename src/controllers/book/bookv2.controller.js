@@ -71,6 +71,29 @@ exports.searchBookByIsbn = async (req, res) => {
     }
 };
 
+exports.searchBookFilter = async (req, res) => {
+    try {
+        var search = functions.GetSearchParam(req.body.search);
+        var read = functions.GetSearchParam(req.body.read);
+        options.page = functions.GetPage(req.body.page);
+
+        var filter = { user: req.user};
+
+        if(search){
+            filter = { ...filter, title: { $regex: '.*' + search + '.*', '$options' : 'i' }};
+        }
+
+        if(functions.IsBoolean(read)){
+            filter = { ...filter, read: read};
+        }
+
+        const books = await Book.paginate(filter, options);
+        res.json(books)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
 exports.getBook = async (req, res, next)=> {
     try{
         var book = await Book.findById(req.params.id)
@@ -89,3 +112,4 @@ exports.getBook = async (req, res, next)=> {
         res.status(500).json({message: err.message})
     }
 };
+

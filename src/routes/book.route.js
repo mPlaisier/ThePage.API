@@ -21,6 +21,9 @@ router.route('/search/title')
 router.route('/search/isbn')
     .get(auth(), validate(bookValidation.searchBookByIsbn), controllerv2.searchBookByIsbn); //TODO
 
+router.route('/search/filter')    
+    .get(auth(), validate(bookValidation.searchBookFilter), controllerv2.searchBookFilter);
+
 router.route('/:id')
     .get(controller.getBook, controller.getBookDetail)
     .patch( controller.getBook, controller.updateBook)
