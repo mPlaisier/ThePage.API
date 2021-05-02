@@ -23,11 +23,13 @@ const bookSchema = new mongoose.Schema({
     },
     owned: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     read: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     pages: {
         type: Number,
@@ -43,7 +45,8 @@ const bookSchema = new mongoose.Schema({
     },
     ebook: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

@@ -36,6 +36,14 @@ const searchBookByIsbn = {
     })
 };
 
+const searchBookFilter = {
+    param: Joi.object().keys({
+        search: Joi.string(),
+        read: Joi.boolean(),
+        page: Joi.number().integer()
+    })
+}
+
 const getBookDetail = {
     params: Joi.object().keys({
         id: Joi.required().custom(objectId),
@@ -72,6 +80,7 @@ module.exports = {
     addBook,
     searchBookByTitle,
     searchBookByIsbn,
+    searchBookFilter,
     getBookDetail,
     updateBook,
     deleteBook
