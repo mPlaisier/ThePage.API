@@ -9,16 +9,24 @@ const getBooks = {
 
 const addBook = {
     body: Joi.object().keys({
-      title: Joi.string().required(),
-      author: Joi.required().custom(objectId),
-      genres: Joi.array().items(objectId),
-      isbn: Joi.string(),
-      owned: Joi.boolean(),
-      read: Joi.boolean(),
-      pages: Joi.number().integer(),
-      olkey: Joi.string(),
-      olcover: Joi.any(),
-      ebook: Joi.boolean()
+        title: Joi.string().required(),
+        author: Joi.required().custom(objectId),
+        genres: Joi.array().items(objectId),
+        isbn: Joi.string(),
+        owned: Joi.boolean(),
+        read: Joi.boolean(),
+        pages: Joi.number().integer(),
+        olkey: Joi.string(),
+        olcover: Joi.any(),
+        ebook: Joi.boolean(),
+        images: Joi.object().keys({
+            smallThumbnail: Joi.string().uri(),
+            thumbnail: Joi.string().uri(),
+            small: Joi.string().uri(),
+            medium: Joi.string().uri(),
+            large: Joi.string().uri(),
+            extraLarge: Joi.string().uri(),
+        })
     })
 };
 

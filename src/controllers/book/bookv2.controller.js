@@ -6,7 +6,7 @@ const functions = require("../../utils/functions.js");
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
 const options = {
-    select: 'title author',
+    select: 'title author images',
     sort: { title: 'asc'},
     populate: {
         path: 'author',
@@ -39,7 +39,8 @@ exports.addBook = async (req, res)=> {
         olkey: req.body.olkey,
         olcover: req.body.olcover,
         ebook: req.body.ebook,
-        user: req.user
+        user: req.user,
+        images: req.body.images
     })
     try{
         const newBook = await book.save()
@@ -112,4 +113,3 @@ exports.getBook = async (req, res, next)=> {
         res.status(500).json({message: err.message})
     }
 };
-
