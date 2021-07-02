@@ -43,8 +43,11 @@ exports.addBook = async (req, res)=> {
         images: req.body.images
     })
     try{
-        const newBook = await book.save()
-        res.status(201).json(newBook)
+        const newBook = await book.save();
+        var  response =  await Book.findById(newBook.id)
+                             .populate('author genres');
+
+        res.status(201).json(response)
     } catch(err){
         res.status(400).json({message: err.message})
     }
