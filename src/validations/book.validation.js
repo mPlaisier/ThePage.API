@@ -20,12 +20,12 @@ const addBook = {
         olcover: Joi.any(),
         ebook: Joi.boolean(),
         images: Joi.object().keys({
-            smallThumbnail: Joi.string().uri(),
-            thumbnail: Joi.string().uri(),
-            small: Joi.string().uri(),
-            medium: Joi.string().uri(),
-            large: Joi.string().uri(),
-            extraLarge: Joi.string().uri(),
+            smallThumbnail: Joi.string().uri().allow(null),
+            thumbnail: Joi.string().uri().allow(null),
+            small: Joi.string().uri().allow(null),
+            medium: Joi.string().uri().allow(null),
+            large: Joi.string().uri().allow(null),
+            extraLarge: Joi.string().uri().allow(null),
         })
     })
 };
