@@ -21,6 +21,13 @@ const searchAuthorByName = {
     })
 };
 
+const searchAuthorByName = {
+    query: Joi.object().keys({
+      name: Joi.string(),
+      page: Joi.number().integer(),
+    }),
+  };
+
 const getAuthorDetail = {
     params: Joi.object().keys({
         id: Joi.required().custom(objectId),
