@@ -73,7 +73,15 @@ const updateBook = {
         pages: Joi.number().integer(),
         olkey: Joi.string(),
         olcover: Joi.any(),
-        ebook: Joi.boolean()
+        ebook: Joi.boolean(),
+        images: Joi.object().keys({
+            smallThumbnail: Joi.string().uri().allow(null),
+            thumbnail: Joi.string().uri().allow(null),
+            small: Joi.string().uri().allow(null),
+            medium: Joi.string().uri().allow(null),
+            large: Joi.string().uri().allow(null),
+            extraLarge: Joi.string().uri().allow(null),
+        })
     })
 };
 
