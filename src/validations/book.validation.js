@@ -9,16 +9,24 @@ const getBooks = {
 
 const addBook = {
     body: Joi.object().keys({
-      title: Joi.string().required(),
-      author: Joi.required().custom(objectId),
-      genres: Joi.array().items(objectId),
-      isbn: Joi.string(),
-      owned: Joi.boolean(),
-      read: Joi.boolean(),
-      pages: Joi.number().integer(),
-      olkey: Joi.string(),
-      olcover: Joi.any(),
-      ebook: Joi.boolean()
+        title: Joi.string().required(),
+        author: Joi.required().custom(objectId),
+        genres: Joi.array().items(objectId),
+        isbn: Joi.string(),
+        owned: Joi.boolean(),
+        read: Joi.boolean(),
+        pages: Joi.number().integer(),
+        olkey: Joi.string(),
+        olcover: Joi.any(),
+        ebook: Joi.boolean(),
+        images: Joi.object().keys({
+            smallThumbnail: Joi.string().uri().allow(null),
+            thumbnail: Joi.string().uri().allow(null),
+            small: Joi.string().uri().allow(null),
+            medium: Joi.string().uri().allow(null),
+            large: Joi.string().uri().allow(null),
+            extraLarge: Joi.string().uri().allow(null),
+        })
     })
 };
 
@@ -35,6 +43,14 @@ const searchBookByIsbn = {
         page: Joi.number().integer()
     })
 };
+
+const searchBookFilter = {
+    param: Joi.object().keys({
+        search: Joi.string(),
+        read: Joi.boolean(),
+        page: Joi.number().integer()
+    })
+}
 
 const getBookDetail = {
     params: Joi.object().keys({
@@ -57,7 +73,15 @@ const updateBook = {
         pages: Joi.number().integer(),
         olkey: Joi.string(),
         olcover: Joi.any(),
-        ebook: Joi.boolean()
+        ebook: Joi.boolean(),
+        images: Joi.object().keys({
+            smallThumbnail: Joi.string().uri().allow(null),
+            thumbnail: Joi.string().uri().allow(null),
+            small: Joi.string().uri().allow(null),
+            medium: Joi.string().uri().allow(null),
+            large: Joi.string().uri().allow(null),
+            extraLarge: Joi.string().uri().allow(null),
+        })
     })
 };
 
@@ -72,6 +96,7 @@ module.exports = {
     addBook,
     searchBookByTitle,
     searchBookByIsbn,
+    searchBookFilter,
     getBookDetail,
     updateBook,
     deleteBook

@@ -6,7 +6,7 @@ const functions = require("../../utils/functions.js");
 //Fixed values
 const pageLimit = process.env.BOOK_LIMIT;
 const options = {
-    select: 'title author',
+    select: 'title author images',
     sort: { title: 'asc'},
     populate: {
         path: 'author',
@@ -39,11 +39,15 @@ exports.addBook = async (req, res)=> {
         olkey: req.body.olkey,
         olcover: req.body.olcover,
         ebook: req.body.ebook,
-        user: req.user
+        user: req.user,
+        images: req.body.images
     })
     try{
-        const newBook = await book.save()
-        res.status(201).json(newBook)
+        const newBook = await book.save();
+        var  response =  await Book.findById(newBook.id)
+                             .populate('author genres');
+
+        res.status(201).json(response)
     } catch(err){
         res.status(400).json({message: err.message})
     }
@@ -70,6 +74,29 @@ exports.searchBookByIsbn = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 };
+
+exports.searchBookFilter = async (req, res) => {
+    try {
+        var search = functions.GetSearchParam(req.body.search);
+        var read = functions.GetSearchParam(req.body.read);
+        options.page = functions.GetPage(req.body.page);
+
+        var filter = { user: req.user};
+
+        if(search){
+            filter = { ...filter, title: { $regex: '.*' + search + '.*', '$options' : 'i' }};
+        }
+
+        if(functions.IsBoolean(read)){
+            filter = { ...filter, read: read};
+        }
+
+        const books = await Book.paginate(filter, options);
+        res.json(books)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 
 exports.getBook = async (req, res, next)=> {
     try{

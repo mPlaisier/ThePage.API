@@ -2,52 +2,9 @@ const mongoose = require('mongoose')
 const Book = require('../../models/book.model.js')
 const Shelf = require('../../models/shelf.model.js')
 
-//Fixed values
-const pageLimit = process.env.BOOK_LIMIT;
-const options = {
-    select: 'title author',
-    sort: { title: 'asc'},
-    populate: {
-        path: 'author',
-        select: 'name'
-    },
-    limit: pageLimit,
-    collation: { locale: 'en' }
-};
-
-exports.getBooks = async (req, res)=> {
-    try{
-        const books = await Book.find()
-        res.json(books)
-    } catch(err){
-        res.status(500).json({message: err.message})
-    }
-}
-
 exports.getBookDetail = (req, res)=> {
     res.send(res.book) 
  };
-
-exports.addBook = async (req, res)=> {
-    const book = new Book({
-        title: req.body.title,
-        author: req.body.author,
-        genres: req.body.genres,
-        isbn: req.body.isbn,
-        owned: req.body.owned,
-        read: req.body.read,
-        pages: req.body.pages,
-        olkey: req.body.olkey,
-        olcover: req.body.olcover,
-        ebook: req.body.ebook
-    })
-    try{
-        const newBook = await book.save()
-        res.status(201).json(newBook)
-    } catch(err){
-        res.status(400).json({message: err.message})
-    }
-}
 
 exports.updateBook =  async (req, res)=> {
     if(req.body.title != null){
@@ -116,17 +73,4 @@ exports.deleteBook = async (req, res)=> {
     }catch(err){
         res.status(500).json({message: err.message})
     }
-};
-
-exports.getBook = async (req, res, next)=> {
-    try{
-        var book = await Book.findById(req.params.id)
-        if(book == null){
-            return res.status(404).json({message: 'Cannot find book',code: '31'})
-        }        
-    }catch(err){
-        res.status(500).json({message: err.message})
-    }
-    res.book = book;
-    next();
 };

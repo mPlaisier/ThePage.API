@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2');
 const { toJSON } = require('./plugins');
+require('mongoose-type-url');
 
 const bookSchema = new mongoose.Schema({
     title:{
@@ -23,11 +24,13 @@ const bookSchema = new mongoose.Schema({
     },
     owned: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     read: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     pages: {
         type: Number,
@@ -43,13 +46,22 @@ const bookSchema = new mongoose.Schema({
     },
     ebook: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
       private: true
+    },
+    images: {
+        smallThumbnail: {type: mongoose.SchemaTypes.Url, required: false},
+        thumbnail: {type: mongoose.SchemaTypes.Url, required: false},
+        small: {type: mongoose.SchemaTypes.Url, required: false},
+        medium: {type: mongoose.SchemaTypes.Url, required: false},
+        large: {type: mongoose.SchemaTypes.Url, required: false},
+        extraLarge: {type: mongoose.SchemaTypes.Url, required: false},
     }
 })
 
