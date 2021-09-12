@@ -46,6 +46,10 @@ exports.updateBook =  async (req, res)=> {
         res.book.ebook = req.body.ebook
     }
 
+    if(req.body.images != null){
+        res.book.images = req.body.images
+    }
+
     try{
         const updatedBook = await res.book.save()
         if(updatedBook != null){
